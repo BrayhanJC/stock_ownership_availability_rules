@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		
+		<!-- Stock Reserve Wizard View -->
+		<record id="stock_reserve_wizard_view" model="ir.ui.view">
+			<field name="model">stock.reserve</field>
+			<field name="arch" type="xml">
+			<form string="Stock Reserve">
+				<group>
+					<group>
+						<field name="sale_order" readonly="1"/>
+					</group>
+					<group>
+						<field name="notify_user" widget="many2many_tags"  placeholder="Select User to Send Email" style="color:#898687"/>
+					</group>
+					<field name="stock_reserve_line" nolabel ="1">
+						<tree editable="botttom" create="false">
+							<field name="order_line_id" />
+							<field name="product_id" />
+							<field name="product_qty" />
+							<field name="product_uom" class="oe_inline"/>
+							<field name="reserve_qty" />
+						</tree>
+					</field>
+				</group>
+				<footer>
+					<button name="reserve_sales_stock" type="object" string="Reserve" class="btn btn-primary active" icon="fa-pencil-square" />
+					<button string="Cancel" class="btn btn-danger disabled" special="cancel" icon="fa-times"/>
+				</footer> 
+			</form>
+			</field>
+		</record>
+
+		<!-- Stock Reserve Wizard Action -->
+		<record id="stock_reserve_action" model="ir.actions.act_window">
+			<field name="name">Reserve Stock</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">stock.reserve</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">form</field>
+			<field name="target">new</field>
+		</record>
+
+        <record id="view_stock_config_settings_inherit_extended" model="ir.ui.view">
+            <field name="name">stock.config.settings.inherit</field>
+            <field name="model">stock.config.settings</field>
+            <field name="inherit_id" ref="stock.view_stock_config_settings"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[@name='traceability']" position="after">
+                    <group string="Default Stock Reserve Location">
+                        <field name="location_id" string="Source Location" class="oe_inline"/>
+                        <field name="location_dest_id" string="Destination Location" class="oe_inline"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+	</data>   
+</odoo>
